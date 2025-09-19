@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # =====================
+  # N8N
+  # =====================
+  n8n:
+    image: n8nio/n8n:latest
+    environment:
+      - WEBHOOK_URL=${WEBHOOK_TUNNEL_URL}
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=${N8N_PORT}
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - N8N_OAUTH2_CALLBACK_URL=${N8N_OAUTH2_CALLBACK_URL}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - N8N_LOG_LEVEL=${N8N_LOG_LEVEL}
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_RUNNERS_ENABLED=${N8N_RUNNERS_ENABLED}
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=${N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS}
+      - DB_SQLITE_POOL_SIZE=${DB_SQLITE_POOL_SIZE}
+    ports:
+      - "5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+  # =====================
+  # WAHA
+  # =====================
+  waha:
+    image: devlikeapro/waha:latest
+    environment:
+      - WHATSAPP_HOOK_URL=${WHATSAPP_HOOK_URL}
+      - WHATSAPP_DEFAULT_ENGINE=${WHATSAPP_DEFAULT_ENGINE}
+      - WHATSAPP_HOOK_EVENTS=${WHATSAPP_HOOK_EVENTS}
+    ports:
+      - "3000:3000"
+    volumes:
+      - waha_sessions:/app/.sessions
+      - waha_media:/app/.media
+
+  # =====================
+  # REDIS
+  # =====================
+  redis:
+    image: redis:latest
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    environment:
+      REDIS_USER: ${REDIS_USER}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    ports:
+      - "6379:6379"
+
+  # =====================
+  # POSTGRES
+  # =====================
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+# =====================
+# VOLUMES
+# =====================
+volumes:
+  n8n_data:
+  waha_sessions:
+  waha_media:
+  pgdata:
