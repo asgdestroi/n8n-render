@@ -1,4 +1,3 @@
-# render.yaml (exemplo)
 services:
   - type: web
     name: n8n-service
@@ -10,22 +9,16 @@ services:
       - key: PORT
         value: "5678"
       - key: WEBHOOK_URL
-        # Vamos pedir para você preencher a URL durante o sync (sync: false faz o dashboard pedir o valor)
-        value: "https://seu-n8n-onrender.com/"
         sync: false
       - key: N8N_EDITOR_BASE_URL
-        value: "https://seu-n8n-onrender.com/"
         sync: false
       - key: N8N_BASIC_AUTH_ACTIVE
         value: "true"
       - key: N8N_BASIC_AUTH_USER
-        value: "admin"
         sync: false
       - key: N8N_BASIC_AUTH_PASSWORD
-        value: "troque-por-um-segredo"
         sync: false
       - key: N8N_ENCRYPTION_KEY
-        value: "troque-por-uma-chave-hex-32+"
         sync: false
       # Referenciando automaticamente as credenciais do Postgres criado abaixo:
       - key: DB_POSTGRESDB_HOST
@@ -53,4 +46,3 @@ databases:
   - name: n8n-db
     plan: free
     region: oregon
-    # opcional: database: n8n (o dashboard também cria isso)
