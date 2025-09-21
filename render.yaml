@@ -1,48 +1,16 @@
 services:
   - type: web
-    name: n8n-service
+    name: waha-service
     runtime: image
     plan: free
     image:
-      url: docker.io/n8nio/n8n:latest
+      url: devlikeapro/waha:latest
     envVars:
-      - key: PORT
-        value: "5678"
-      - key: WEBHOOK_URL
+      - key: WHATSAPP_PORT
+        value: "3000"
+      - key: WHATSAPP_API_KEY
         sync: false
-      - key: N8N_EDITOR_BASE_URL
-        sync: false
-      - key: N8N_BASIC_AUTH_ACTIVE
-        value: "true"
-      - key: N8N_BASIC_AUTH_USER
-        sync: false
-      - key: N8N_BASIC_AUTH_PASSWORD
-        sync: false
-      - key: N8N_ENCRYPTION_KEY
-        sync: false
-      # Referenciando automaticamente as credenciais do Postgres criado abaixo:
-      - key: DB_POSTGRESDB_HOST
-        fromDatabase:
-          name: n8n-db
-          property: host
-      - key: DB_POSTGRESDB_PORT
-        fromDatabase:
-          name: n8n-db
-          property: port
-      - key: DB_POSTGRESDB_DATABASE
-        fromDatabase:
-          name: n8n-db
-          property: database
-      - key: DB_POSTGRESDB_USER
-        fromDatabase:
-          name: n8n-db
-          property: user
-      - key: DB_POSTGRESDB_PASSWORD
-        fromDatabase:
-          name: n8n-db
-          property: password
+      - key: NODE_ENV
+        value: "production"
 
-databases:
-  - name: n8n-db
-    plan: free
-    region: oregon
+databases: []
